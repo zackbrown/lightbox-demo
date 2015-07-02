@@ -72,6 +72,7 @@ Item.prototype.makeBackFace = function makeBackFace () {
                         webkitBackfaceVisibility: 'hidden'
                     }
     });
+
     this.backfaceScale = new Scale(this.backface);
     this.backfaceScale.set(0.3, 0.3, 0.3);
     this.backface.setPosition(0, 0, -1);
@@ -79,6 +80,7 @@ Item.prototype.makeBackFace = function makeBackFace () {
     this.backface.setAlign(0.5, 0.5).setMountPoint(0.5, 0.5);
     this.backface.setRotation(0, Math.PI);
     this.backface.setSizeMode('absolute', 'absolute');
+
 };
 
 Item.prototype.onReceive = function (event, payload) {

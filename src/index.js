@@ -60,6 +60,6 @@ for (var i = 0 ; i < 40 ; i++) {
 
 setTimeout(function () {
     grid.onSizeChange();
-}, 500);
+}, 200);
 
 
