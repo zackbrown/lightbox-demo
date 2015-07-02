@@ -1,0 +1,37 @@
+var Node = require('famous/core/Node');
+var Scale = require('famous/components/Scale');
+var Opacity = require('famous/components/Opacity');
+
+function Overlay () {
+    Node.call(this);
+    this.el = new DOMElement(this, {
+        properties: {
+                        backgroundColor: 'black',
+                        border: '1px solid green'
+                    }
+    };
+    this.setMountPoint(0.5, 0.5).setOrigin(0.5, 0.5).setAlign(0.5, 0.5);
+    this.scale = new Scale(this);
+    this.opacity = new Opacity(this);
+    this.transition = {
+        curve: 'easeOutBounce',
+        duration: 300
+    };
+    this.addUIEvent('mouseenter').addUIEvent('mouseleave');
+}
+
+Overlay.prototype.onReceive = function onReceive (event, payload) {
+    if (event === 'mouseenter') {
+        this.scale.set(1, this.transition);
+        this.opacity.set(1, this.transition);
+        payload.stopPropagation();
+    } else if (event === 'mouseleave') {
+        this.scale.set(0.8, this.transition);
+        this.opacity.set(0, this.transition);
+        payload.stopPropagation();
+    }
+}
+
+
+module.exports = Overlay;
+
