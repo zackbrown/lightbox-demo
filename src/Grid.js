@@ -5,6 +5,7 @@ var Position = require('famous/components/Position');
 var Size = require('famous/components/Size');
 var DOMElement = require('famous/dom-renderables/DOMElement');
 var Opacity = require('famous/components/Opacity');
+var Panel = require('./panel');
 
 function Grid () {
     Node.call(this);
@@ -25,6 +26,9 @@ function Grid () {
     this._snap = true;
     this.selected = null;
     this.back = false;
+    this._panel = Node.prototype.addChild.call(this, new Panel());
+
+    this._panel.setAlign(1, 0.1);
 
     this._innerGrid.addUIEvent('wheel');
 }
@@ -85,12 +89,18 @@ Grid.prototype.pushBack = function pushBack () {
     this._childPositions[this.selected].set(
             innerGridSize[0] / 2 - 125,
             this._topMargin - this._wheelDelta + (innerSize[1] / 2 - 137.5 - this._topMargin),
-            0, this.getTransition()
+            0,
+            this.getTransition(),
+            function () {
+                this._panel.slideIn();
+            }.bind(this)
     );
 
 };
 
 Grid.prototype.comeForward = function comeFoward () {
+
+    this._panel.slideOut();
 
     for (var i = 0, len = this._childPositions.length ; i < len ; i++) {
         if (i !== this.selected) {
@@ -136,6 +146,7 @@ Grid.prototype.layout = function layout (item, i, cursor) {
 Grid.prototype.setMargin = function setMargin (x, y) {
     this._margin[0] = x != null ? x : this._margin[0];
     this._margin[1] = y != null ? y : this._margin[1];
+    this.onSizeChange();
 }
 
 Grid.prototype.addChild = function addChild (item) {

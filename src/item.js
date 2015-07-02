@@ -18,8 +18,9 @@ function tipTemplate () {
     return randomText(4) + ' ' + randomText(6);
 }
 
-function Item (defaultSize, selectedSize) {
+function Item (defaultSize, selectedSize, i) {
     Node.call(this);
+    this.i = i;
     this.size = new Size(this);
     this.defaultSize = defaultSize;
     this.selectedSize = selectedSize;
@@ -45,7 +46,7 @@ Item.prototype.constructor = Item;
 Item.prototype.onMount = function () {
     this.el = new DOMElement(this, {
         properties: {
-                        background: 'url(/images/goya_1_smaller.jpg) no-repeat center',
+                        background: 'url(/images/goya_' + ((this.i % 12) + 1) + '_thumb.jpg) no-repeat center',
                         zIndex: '100'
                     }
     });
@@ -66,7 +67,7 @@ Item.prototype.makeRing = function makeRing () {
 Item.prototype.makeBackFace = function makeBackFace () {
     new DOMElement(this.backface, {
         properties: {
-                        background: 'url(/images/goya_1.jpg) no-repeat center',
+                        background: 'url(/images/goya_' + ((this.i % 12) + 1) + '.jpg) no-repeat center',
                         backfaceVisibility: 'hidden',
                         webkitBackfaceVisibility: 'hidden'
                     }
