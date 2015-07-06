@@ -6,6 +6,8 @@ var Overlay = require('./Overlay');
 var Scale = require('famous/components/Scale');
 var Opacity = require('famous/components/Opacity');
 
+var data = require('./data');
+
 function randomInt (range) {
     return (range * Math.random())|0;
 }
@@ -44,9 +46,10 @@ Item.prototype = Object.create(Node.prototype);
 Item.prototype.constructor = Item;
 
 Item.prototype.onMount = function () {
+    var url = data[this.i].thumbnailURL;
     this.el = new DOMElement(this, {
         properties: {
-                        background: 'url(/images/goya_' + ((this.i % 12) + 1) + '_thumb.jpg) no-repeat center',
+                        background: 'url('+url+') no-repeat center',
                         zIndex: '100'
                     }
     });
@@ -65,9 +68,10 @@ Item.prototype.makeRing = function makeRing () {
 }
 
 Item.prototype.makeBackFace = function makeBackFace () {
+    var url = data[this.i].imageURL;
     new DOMElement(this.backface, {
         properties: {
-                        background: 'url(/images/goya_' + ((this.i % 12) + 1) + '.jpg) no-repeat center',
+                        background: 'url('+url+') no-repeat center',
                         backfaceVisibility: 'hidden',
                         webkitBackfaceVisibility: 'hidden'
                     }
